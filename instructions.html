@@ -1,0 +1,136 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- 
+    Authors: Raghavender Hariharan, Singuri Suchith, Rohit Bhrugumalla, Ujwala Parupudi
+    Team: Platform Technology Group
+    Description: This code is used to develop an Excel Add-In that lets the user upload their 
+    worksheets into ION via IMS (ION V2 Messaging Service) or into Infor Datalake via Data fabric 
+    ingestion APIs. Users can also retrieve data from Infor Datalake into Excel Worksheets.
+    Instructions Folder: Contains the HTML code for displaying the instruction and description for the 
+    Add-In. 
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+  <!-- Office JavaScript API -->
+  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body style="background-color: #e6e6e6;">
+  <div style="padding: 10px; font-size: 13px">
+    <h3 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">Excel add-in, version: 2022.01.00</h3>
+    <h4 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">Common FAQ's:</h4>
+      <label class="ms-fontWeight-semibold">1. How do I add and activate a profile?</label>
+      <div>
+        <ul>
+          <li>Open Excel Add-in for Infor OS .</li>
+          <li>Click on Authenticate Button , a Popup opens having a "CHOOSE FILE" button and a list of already existing
+            authorized ionapi files (If added before).</li>
+          <li>Click on "CHOOSE FILE" button (if you want to use a file which is not in visible in the list shown below).
+          </li>
+          <li>The file being uploaded should be of type "WebApp" and of extension "ionapi" .(Please refer to the user
+            guide for more instructions on Authorized Apps".</li>
+          <li>Once the file is added , please select the required files from the list below to authenticate into the
+            particular tenant.</li>
+          <li>Infor Login Page is displayed and you will have to enter your login credentials and then click on "Login".
+            A new page will be loaded which asks you to click on "Allow" ,please click on "Allow " after verifying the
+            Tenant name.
+          </li>
+          <li>Under "Select authentication file", browse and select file shared by INFOR team with extension ionapi.
+          </li>
+          <li>Once user is authenticated, window auto-closes and the "Authenticate" button turns into Green Color.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">2. How do I add more than one profile?</label>
+      <div>
+        <ul>
+          <li>Adding additional profiles is the same as process mentioned in step 1.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">3. How do I switch between profiles?</label>
+      <div class="pls">
+        <ul>
+          <li>Click on Authenticate Button , a PopUp opens having a list of already existing authorized app files.</li>
+          <li>Click on desired file from the list below to signin into that particular tenant.</li>
+          <li>Once user is authenticated, window auto-closes and the "Authenticate" button turns into Green Color.</li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">4. Can I have multiple active profiles at any given time?</label>
+      <div>
+        <ul>
+          <li>No. Though users can enter multiple profiles, only one profile can be active at a given time active
+            profile.
+          </li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">5. What functions does this Add-In provide?</label>
+      <div>
+        <ul>
+          <li>“To IMS” – This option is used to send the data from the excel sheet (either a selected sheet or All the
+            sheets in the Excel workbook) will be sent into ION through IMS(Infor Messaging Service).
+            While using “To IMS” option , user will have to enter the Logical ID of the active connection point being
+            used (More details on this can be found from the User Guide).
+            After entering the Logical ID , user can select either a single sheet or “ALL” to send all the sheets into
+            IMS.
+            Once both these fields are filled user can click on “Submit” once the Data has been sent one can see a
+            display on the Add-In and also check for more details in the “Sheet_Overview” sheet.
+          </li>
+          <li>
+            “To Data Lake” – This option is used to send the data from the excel sheet (either a selected sheet or
+            All the sheets in the Excel workbook) will be sent into ION Data Lake.
+            While using “To Data Lake” option , user will have to enter the Logical ID of a connection point being used
+            (More details on this can be found from the User Guide).
+            After entering the Logical ID , user can select either a single sheet or “ALL” to send all the sheets into
+            IMS.
+            Once both these fields are filled user can click on “Submit”.Once the Data has been sent ,user can see a
+            display on the Add-In and also check “Sheet_Overview” sheet for more details .
+          </li>
+          <li>
+            “From Data Lake” – This option is used to extract the data from Data Lake into the currently opened Excel
+            sheet .
+            While using “From Data Lake” one has to enter the query in the text box provided and also enter the name of
+            the sheet which stores the retrieved data .(Please make sure that the name of the sheet shouldn’t be the
+            same as the existing sheet in the workbook and also the name of the sheet entered should be less than 31
+            characters).
+          </li>
+        </ul>
+      </div>
+      <label class="ms-fontWeight-semibold">6. Why is a new Sheet called “Sheet_Overview” being added when we load the
+        Add-In ?</label>
+      <div>
+        <ul>
+          <li>Sheet_Overview is a new sheet being added by the Add-In to display various logs being generated during the
+            working of the Add-In. User can go through the Sheet_Overview to know the status of the tasks they have
+            performed using the Add-In.
+          </li>
+        </ul>
+      </div>
+      <h4 style="font-size: 16px; margin-bottom: 20px;" class="ng-binding">General Instructions to be followed:</h4>
+      <div>
+        <ul>
+          <li>Make sure workbook format is .xlsx</li>
+          <li>Make sure you are not in edit mode while using any of the functions in the Add-in.</li>
+          <li>When you choose an ION API File, please complete the sign in procedure.</li>
+          <li>Make sure authenticate button is green in order use the add in properly.</li>
+          <li>In case of any issues, please reload the Add-In.</li>
+          <li>While sending data to “To IMS” or “To DataLake” please make sure to enter the Object Name of the document being sent in the A1 cell. 
+            Make sure that the case used for the schema is the same as the respective Object Schema defined. Please continue with the data from the next cell , i.e A2 onwards.</li>
+          <li>Make sure to not have formulas in any cells of the worksheet</li>
+          <li>In order to use "To Data Lake" and "From Data Lake" options make sure that the tenant being used has a working Infor Data Fabric API Suite and active endpoints</li>
+        </ul>
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
